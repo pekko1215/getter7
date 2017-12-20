@@ -1,0 +1,25 @@
+var control = {
+	reel:{
+		speed:37,
+		slipspeed:37,
+		margin:0
+	},
+	minbet:1,
+	wait:0,
+	code:[
+		"はずれ",
+		"リプレイ",
+		"ベル",
+		"スイカ",
+		"チェリー",
+		"BIG1",
+		"BIG2",
+        "BIG3",
+		"REG",
+		"JACIN",
+		"JACGAME",
+		"BIG4",
+		"アフターチェリー"
+		],
+	maxpay:[15,15,15]
+}
