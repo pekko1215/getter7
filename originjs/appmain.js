@@ -374,14 +374,13 @@ function main() {
                         ret = lot
                         break;
                     case "ベル":
-                    case "スイカ":
                     case "チェリー":
                         ret = lot;
                         break;
                     case "REG":
                     case "BIG":
                     default:
-                        if (!rand(3) == 0 && !jacflag) {
+                        if (!jacflag) {
                             ret = "JACIN"
                             jacflag = true
                         } else {
@@ -488,8 +487,8 @@ function main() {
     sounder.addFile("sound/kokutise.mp3", "kokutise").addTag("se");
     sounder.addFile("sound/widgetkokuti.mp3", "widgetkokuti").addTag("voice").addTag("se");
 
-    sounder.addFile("sound/bpay.wav", "bpay").addTag("se");
-
+    sounder.addFile("sound/bpay.wav", "bpay").addTag("se").setVolume(0.5);
+    sounder.setVolume("se",0.2)
     sounder.loadFile(function() {
         window.sounder = sounder
         console.log(sounder)

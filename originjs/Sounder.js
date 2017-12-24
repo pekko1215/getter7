@@ -10,6 +10,7 @@ function Sounder(filesObj) {
     this.sources = [];
     this.loops = [];
     this.nodeGains = {};
+    this.volumedata = {};
 
     var AudioContext = window.AudioContext // Default
         || window.webkitAudioContext // Safari and old versions of Chrome
@@ -34,11 +35,7 @@ Sounder.prototype.addFile = function (file, tag) {
 
 Sounder.prototype.setVolume = function(tag,volume){
     var that = this;
-
-    if(!(tag in that.nodeGains)){
-        that.nodeGains[tag] = that.context.createGain()
-    }
-    that.nodeGains[tag].gain.value = volume;
+    that.volumedata[tag] = volume;
 }
 
 Sounder.prototype.loadFile = function (callback) {
@@ -107,18 +104,21 @@ Sounder.prototype.playSound = function (tag, loop, callback, loopstart, loopend)
         } else {
             setTimeout(callback, f.buffer.duration * 1000);
         }
+        var volume = 1;
         var base = source;
+        if(!that.nodeGains[f.tag[0]]){
+            that.nodeGains[f.tag[0]] = that.context.createGain()
+        }
         f.tag.forEach(function(tag){
-            if(tag in that.nodeGains){
-                base.connect(that.nodeGains[tag]);
-            }else{
-                that.nodeGains[tag] = that.context.createGain()
-                base.connect(that.nodeGains[tag]);
+            if(that.volumedata[tag]===undefined){
+                that.volumedata[tag] = 1;
             }
-            base = that.nodeGains[tag];
+            volume *= that.volumedata[tag];
         })
+        that.nodeGains[f.tag[0]].gain.value = volume;
 
-        base.connect(that.compressor);
+        base.connect(that.nodeGains[f.tag[0]]);
+        that.nodeGains[f.tag[0]].connect(that.compressor);
 
         that.compressor.connect(that.context.destination);
         source.start()
