@@ -245,7 +245,7 @@ function main() {
                 }
             })(e)
         }
-        if (gamemode == "reg" || gamemode == "jac") {
+        if (gamemode == "jac") {
             segments.payseg.setSegments(bonusdata.jacgamecount)
         } else {
             segments.payseg.reset();
@@ -599,8 +599,8 @@ function main() {
             outcoin: outcoin,
             playcount: playcount,
             allplaycount: allplaycount,
-            name: "はにゃはにゃ",
-            id: "nya"
+            name: "ゲッター7",
+            id: "getter7"
         }
     }
 
@@ -720,7 +720,11 @@ function main() {
     }
 
     function changeBonusSeg() {
-        segments.effectseg.setSegments("" + (bonusdata.bonusget - bonusdata.geted));
+        var tmp = bonusdata.bonusget - bonusdata.geted
+        if(tmp<0){
+            tmp = 0;
+        }
+        segments.effectseg.setSegments(""+tmp);
 
     }
 
